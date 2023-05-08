@@ -52,4 +52,46 @@ To Extract some interesting Analysis/Insights from the HotelBooking Dataset
  - A1.isnull().sum()
  - A1.dropna(inplace=True)
  - A1.describe()                 ## For Confirmation
- -  
+ 
+ ## Data analysis For Total Reservation Status Count
+ 
+ - cancel_per = A1['is_canceled'].value_counts(normalize=True)
+ - print(cancel_per)
+ 
+ - plt.figure(figsize = (5,4))
+ - plt.title('Reservation status count')
+ - plt.bar(['Not Cancelled','Cancelled'],A1['is_canceled'].value_counts(),edgecolor = 'r' , width = 0.7)
+ - plt.show()
+ 
+ ## Reservation Status For Different Hotel
+ 
+ - plt.figure(figsize=(8,4))
+ - sea= sns.countplot( x= 'Hotel' , hue= 'is_canceled', data= A1 , palette = 'Blues')
+ - legend_labels = sea. get_legend_handles_labels()
+ - plt.title('Reservation status in different hotels', size= 20)
+ - plt.xlabel('hotel')
+ - plt.ylabel('number of reservations')
+ - plt.show()
+
+## Added Extra Month column to check reservation according Montly
+ - A1['Month']=A1['reservation_status_date'].dt.month
+
+## Reservation per Month
+ - A1['Month']
+ - plt.figure(figsize= (16,8))
+ - sea = sns.countplot(x= 'Month', hue = 'is_canceled' , data = A1 , palette = 'bright')
+ - legend_labels = sea. get_legend_handles_labels()
+ - plt.title('Reservation per Month', size= 20)
+ - plt.xlabel('Month')
+ - plt.ylabel('number of reservations')
+ - plt.legend(['not canceled','canceled'])
+ - plt.show()
+ 
+ 
+ ## Top 10 Countries with reservation canceled
+ - canceled_data = A1[A1['is_canceled'] == 1]
+ - top_10_country = canceled_data['country'].value_counts()[:10]
+ - plt.figure(figsize= (8,8))
+ - plt.title('Top 10 countries with reservation cancelled')
+ - plt.pie(top_10_country,autopct ='%2f', labels = top_10_country.index)
+ - plt.show()
