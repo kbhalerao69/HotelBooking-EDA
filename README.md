@@ -95,3 +95,33 @@ To Extract some interesting Analysis/Insights from the HotelBooking Dataset
  - plt.title('Top 10 countries with reservation cancelled')
  - plt.pie(top_10_country,autopct ='%2f', labels = top_10_country.index)
  - plt.show()
+
+ ## Checking Booking Reservation by different market segments
+ 
+- A1['market_segment'].value_counts()
+- 
+- canceled_data = A1[A1['is_canceled'] == 1]
+- canceled_data['market_segment'].value_counts(normalize=True)
+- 
+- not_canceled_data =  A1[A1['is_canceled'] == 0]
+- not_canceled_data['market_segment'].value_counts(normalize=True)
+
+## Average Daily Rate for Year 2017
+- canceled_adr = canceled_data.groupby('reservation_status_date')[['adr']].mean()
+- canceled_adr.reset_index(inplace=True)
+- canceled_adr.sort_values('reservation_status_date',inplace=True)
+
+- not_canceled_adr = not_canceled_data.groupby('reservation_status_date')[['adr']].mean()
+- not_canceled_adr.reset_index(inplace=True)
+- not_canceled_adr.sort_values('reservation_status_date',inplace=True)
+
+- canceled1=canceled_adr[(canceled_adr['reservation_status_date']> '2017') & (canceled_adr['reservation_status_date'] < '2017-09')]
+- not_canceled1= not_canceled_adr[(not_canceled_adr['reservation_status_date']> '2017') & (not_canceled_adr['reservation_status_date'] < '2017-09')]
+
+
+- plt.figure(figsize = (20,6))
+- plt.title('Average Daily Rate')
+- plt.plot(not_canceled1['reservation_status_date'],not_canceled1['adr'],label= 'Not Canceled')
+- plt.plot(canceled1['reservation_status_date'],canceled1['adr'],label= 'Canceled')
+- plt.legend(fontsize = 20)
+- plt.show()
